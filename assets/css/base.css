@@ -1,0 +1,118 @@
+/* ═══════════════════════════════════════════════════════════════════
+   BASE
+   Variables de diseño, reset y tipografía. Nada de esto conoce a
+   ningún componente en concreto: es el suelo sobre el que se construye
+   todo lo demás.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Tokens ──────────────────────────────────────────────────────
+   Todos los colores y medidas viven aquí. Cambiar el tema completo
+   significa tocar este bloque, no salir a cazar códigos hex sueltos
+   por tres archivos.                                                 */
+:root{
+  --noche:      #1B1033;   /* fondo general */
+  --profundo:   #2A1849;   /* superficies elevadas */
+  --papel:      #F5E6C8;   /* texto principal, "tinta" clara */
+  --rosa:       #E8A0A6;   /* acento primario */
+  --oro:        #D9B26A;   /* acento del sello y las cifras */
+  --tenue:      rgba(245,230,200,.55);
+
+  --display: "Cormorant Garamond", Georgia, serif;
+  --cuerpo:  "Karla", system-ui, sans-serif;
+  --dato:    "IBM Plex Mono", monospace;
+
+  --gutter: clamp(20px, 6vw, 40px);
+  --bloque: clamp(64px, 14vh, 120px);   /* separación entre secciones */
+  --curva: cubic-bezier(.16,.84,.44,1);
+}
+
+/* ── 2. Reset mínimo ────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body{
+  margin: 0;
+  background: var(--noche);
+  color: var(--papel);
+  font-family: var(--cuerpo);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  /* Respeta la muesca y la barra inferior del iPhone.
+     Funciona junto con viewport-fit=cover en el <meta viewport>. */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+           env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+/* Atmósfera de fondo: luz de vela arriba y abajo.
+   Va en una capa fija propia porque Safari en iOS ignora o dibuja mal
+   `background-attachment: fixed` y produce tirones al hacer scroll.
+   El z-index negativo la manda detrás del texto pero delante del color
+   de fondo del body. Sin él se pintaría ENCIMA del contenido: los
+   elementos posicionados van por delante de los que están en flujo. */
+body::before{
+  content: "";
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(120% 60% at 50% 0%, rgba(232,160,166,.10), transparent 60%),
+    radial-gradient(100% 50% at 50% 100%, rgba(217,178,106,.08), transparent 60%);
+}
+
+/* ── 3. Normalización para Safari en iOS ────────────────────────────
+   iOS le aplica su propio estilo a los <button>: bordes redondeados,
+   degradado y un destello gris al tocarlos. Hay que apagarlo de forma
+   explícita o el sello parece un botón de sistema, no lacre.         */
+button{
+  -webkit-appearance: none;
+          appearance: none;
+  -webkit-tap-highlight-color: transparent;  /* quita el flash gris */
+  -webkit-user-select: none;
+          user-select: none;
+  -webkit-touch-callout: none;               /* no abre menú al mantener pulsado */
+  touch-action: manipulation;                /* elimina el retardo de 300 ms */
+  font: inherit;
+  color: inherit;
+}
+
+/* Accesibilidad: foco visible para quien navega con teclado */
+:focus-visible{
+  outline: 2px solid var(--rosa);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* ── 4. Tipografía ──────────────────────────────────────────────── */
+h1, h2{
+  font-family: var(--display);
+  font-weight: 300;
+  line-height: 1.1;
+  margin: 0;
+}
+
+p { margin: 0 0 1.1em; }
+
+.eyebrow{
+  font-family: var(--dato);
+  font-size: .68rem;
+  font-weight: 300;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--tenue);
+  margin: 0 0 1.4rem;
+}
+
+/* ── 5. Preferencias del sistema ────────────────────────────────────
+   Si la persona pidió menos movimiento en los ajustes de su teléfono,
+   lo respetamos. Va en base.css para que aplique a todos los archivos. */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}

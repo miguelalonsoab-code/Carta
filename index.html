@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>Para Dagiana</title>
+<meta name="description" content="Una carta que no cabía en un papel.">
+<meta name="theme-color" content="#1B1033">
+
+<!-- Vista previa al compartir por WhatsApp -->
+<meta property="og:title" content="Tienes una carta">
+<meta property="og:description" content="Ábrela cuando estés sola y con calma.">
+<meta property="og:type" content="website">
+
+<!-- Tipografías -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300;1,500&family=Karla:wght@300;400;600&family=IBM+Plex+Mono:wght@300;500&display=swap" rel="stylesheet">
+
+<!--
+  Hojas de estilo, en orden de cascada:
+  1. base        — variables, reset, tipografía, correcciones de iOS
+  2. layout      — el sobre, la retícula general, el revelado por scroll
+  3. componentes — contador, galería, tarjetas, pregunta, corazones
+  El orden importa: componentes puede sobrescribir a layout, y layout a base.
+-->
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/componentes.css">
+</head>
+
+<body>
+
+<!-- Capa ambiental. Vacía a propósito: la llena y la limpia corazones.js -->
+<div id="corazones" aria-hidden="true"></div>
+
+<!-- ══ PANTALLA 1: EL SOBRE ══ -->
+<div id="sobre">
+  <p class="remitente" id="txt-remitente"></p>
+  <button class="sello" id="sello" aria-label="Abrir la carta">&#10022;</button>
+  <p class="instruccion" id="txt-instruccion"></p>
+</div>
+
+<!-- ══ LA CARTA ══ -->
+<main id="contenido">
+
+  <section class="seccion revelar">
+    <h1 class="saludo" id="txt-saludo"></h1>
+    <div class="carta" id="txt-carta"></div>
+  </section>
+
+  <section class="seccion revelar">
+    <p class="eyebrow">Juntos desde entonces</p>
+    <div class="contador" id="contador" role="timer" aria-live="off"></div>
+  </section>
+
+  <section class="seccion revelar">
+    <p class="eyebrow">Momentos</p>
+    <div class="momentos" id="momentos"></div>
+  </section>
+
+  <section class="seccion revelar">
+    <p class="eyebrow">Por qué</p>
+    <div class="razones" id="razones"></div>
+  </section>
+
+  <section class="seccion pregunta revelar">
+    <h2 id="txt-pregunta"></h2>
+    <div class="botones" id="botones">
+      <button class="btn btn-si" id="btn-si"></button>
+      <button class="btn btn-no" id="btn-no"></button>
+    </div>
+    <div class="respuesta" id="respuesta"></div>
+    <p class="cierre" id="txt-cierre"></p>
+    <p class="firma" id="txt-firma"></p>
+  </section>
+
+</main>
+
+<button id="audio-btn" aria-label="Activar o silenciar la música">&#9834;</button>
+
+<!--
+  Scripts clásicos con `defer`, NO módulos ES.
+  Motivo: los módulos exigen servidor HTTP y fallan al abrir el archivo
+  con doble clic (file://). Así funciona en GitHub Pages Y en local.
+
+  `defer` hace dos cosas: no bloquea el renderizado, y garantiza que se
+  ejecuten EN ESTE ORDEN. Eso importa, porque cada archivo depende de los
+  anteriores: config define los datos, utils los ayudantes, los módulos
+  la lógica, y main.js orquesta el arranque.
+-->
+<script src="assets/js/config.js" defer></script>
+<script src="assets/js/utils.js" defer></script>
+<script src="assets/js/contador.js" defer></script>
+<script src="assets/js/galeria.js" defer></script>
+<script src="assets/js/razones.js" defer></script>
+<script src="assets/js/corazones.js" defer></script>
+<script src="assets/js/pregunta.js" defer></script>
+<script src="assets/js/revelado.js" defer></script>
+<script src="assets/js/audio.js" defer></script>
+<script src="assets/js/main.js" defer></script>
+
+</body>
+</html>

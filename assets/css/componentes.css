@@ -1,0 +1,344 @@
+/* ═══════════════════════════════════════════════════════════════════
+   COMPONENTES
+   Cada bloque de aquí corresponde a un módulo de JS del mismo nombre.
+   Si borras un componente, borras su bloque de CSS y su archivo .js:
+   nada más se rompe.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ═══ EL SELLO DE LACRE ═════════════════════════════════════════════
+   Es un <button> real, no un div con onclick. Así funciona con teclado
+   y los lectores de pantalla lo anuncian como algo pulsable.         */
+.sello{
+  width: 116px;
+  height: 116px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  background: radial-gradient(circle at 34% 30%, #F0C078, var(--oro) 45%, #9A7530);
+  color: var(--noche);
+  font-family: var(--display);
+  font-size: 2.6rem;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 0 0 rgba(217,178,106,.45), 0 14px 34px rgba(0,0,0,.5);
+  animation: latido 2.6s ease-in-out infinite;
+  transition: transform .5s var(--curva);
+}
+
+.sello:active{ transform: scale(.93); }
+
+.sello.roto{
+  transform: scale(1.9) rotate(22deg);
+  opacity: 0;
+  animation: none;
+}
+
+/* Un halo que se expande y desaparece: llama la atención sin gritar */
+@keyframes latido{
+  0%, 100%{ box-shadow: 0 0 0 0    rgba(217,178,106,.45), 0 14px 34px rgba(0,0,0,.5); }
+  55%     { box-shadow: 0 0 0 26px rgba(217,178,106,0),   0 14px 34px rgba(0,0,0,.5); }
+}
+
+/* ═══ LA CARTA ═════════════════════════════════════════════════════ */
+.saludo{
+  font-size: clamp(2.6rem, 12vw, 4rem);
+  font-style: italic;
+  color: var(--rosa);
+  margin-bottom: .5em;
+}
+
+.carta p{ font-size: 1.05rem; }
+.carta p:last-child{ margin-bottom: 0; }
+
+/* ═══ EL CONTADOR ═══════════════════════════════════════════════════
+   Riesgo deliberado: cifras en monoespaciada. Una máquina midiendo con
+   precisión de segundos algo que en realidad no se puede medir.      */
+.contador{
+  border-top: 1px solid rgba(245,230,200,.16);
+  border-bottom: 1px solid rgba(245,230,200,.16);
+  padding: 26px 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px 8px;
+}
+
+.unidad{ text-align: center; }
+
+.unidad .cifra{
+  font-family: var(--dato);
+  font-weight: 500;
+  font-size: clamp(1.5rem, 7vw, 2.1rem);
+  color: var(--oro);
+  font-variant-numeric: tabular-nums;   /* todos los dígitos miden igual */
+  display: block;
+}
+
+.unidad .etiqueta{
+  font-family: var(--dato);
+  font-size: .6rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--tenue);
+}
+
+/* ═══ GALERÍA DE MOMENTOS ═══════════════════════════════════════════ */
+.momentos{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.momento{
+  background: var(--profundo);
+  padding: 12px 12px 0;                 /* marco tipo polaroid */
+  border-radius: 3px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.4);
+  transition: transform .5s var(--curva);
+}
+
+.momento:nth-child(odd) { transform: rotate(-1.6deg); }
+.momento:nth-child(even){ transform: rotate( 1.4deg); }
+
+.momento img{
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  display: block;
+  background: #241540;
+}
+/* Nota sobre soporte: si Safari es anterior a iOS 15 e ignora
+   `aspect-ratio`, la imagen se muestra con su proporción natural.
+   Como las fotos ya vienen recortadas a 3:4 y 4:3 desde el origen,
+   el resultado es idéntico. No hace falta polyfill. */
+
+/* Si el archivo no existe, ocultamos la imagen rota y dejamos el marco */
+.momento img.falla{ visibility: hidden; }
+
+.momento figcaption{
+  font-family: var(--display);
+  font-style: italic;
+  font-size: .92rem;
+  text-align: center;
+  padding: 10px 4px 14px;
+  color: var(--tenue);
+}
+
+/* Foto apaisada: ocupa las dos columnas y cambia de proporción.
+   Se activa con `ancho: true` en config.js, para fotos grupales o de
+   paisaje que un recorte vertical destrozaría.
+
+   IMPORTANTE: estas dos reglas van DESPUÉS de las de :nth-child a
+   propósito. Tienen la misma especificidad (una clase + una clase o
+   pseudoclase), así que en caso de empate gana la declarada al final.
+   Si estuvieran arriba, la rotación de :nth-child las pisaría. */
+.momento.ancho{
+  grid-column: 1 / -1;
+  transform: rotate(.8deg);
+}
+.momento.ancho img{ aspect-ratio: 4/3; }
+
+/* El hover va al final del todo para poder anular cualquier rotación */
+.momento:hover,
+.momento:focus-within{
+  transform: rotate(0) translateY(-6px);
+}
+
+/* ═══ TARJETAS DE RAZONES ═══════════════════════════════════════════ */
+.razones{
+  display: grid;
+  gap: 14px;
+}
+
+.razon{
+  perspective: 1000px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  min-height: 132px;
+  text-align: left;
+}
+
+.cara-doble{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 132px;
+  /* Safari necesita el prefijo. Sin él las tarjetas no giran: aparece
+     el reverso invertido, con el texto en espejo. */
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-transition: -webkit-transform .7s var(--curva);
+          transition: transform .7s var(--curva);
+}
+
+/* El atributo aria-pressed hace doble trabajo: le dice al lector de
+   pantalla si la tarjeta está volteada, y le sirve al CSS de selector
+   para girarla. Un solo estado, una sola fuente de verdad. */
+.razon[aria-pressed="true"] .cara-doble{
+  -webkit-transform: rotateY(180deg);
+          transform: rotateY(180deg);
+}
+
+.cara{
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  padding: 20px 22px;
+  border-radius: 10px;
+  border: 1px solid rgba(245,230,200,.14);
+  background: var(--profundo);
+}
+
+.cara-frente{
+  font-family: var(--display);
+  font-size: 1.45rem;
+  color: var(--rosa);
+}
+
+.cara-reverso{
+  -webkit-transform: rotateY(180deg);
+          transform: rotateY(180deg);
+  font-size: .93rem;
+  line-height: 1.65;
+  background: linear-gradient(155deg, #33205A, #241540);
+  overflow-y: auto;                     /* si el texto es largo, se desplaza */
+  -webkit-overflow-scrolling: touch;    /* scroll con inercia en iOS */
+}
+
+/* ═══ LA PREGUNTA FINAL ═════════════════════════════════════════════ */
+.pregunta{ text-align: center; }
+
+.pregunta h2{
+  font-size: clamp(1.9rem, 8vw, 2.6rem);
+  margin-bottom: 1.6rem;
+}
+
+/* min-height reserva el espacio donde el botón "No" puede huir */
+.botones{
+  position: relative;
+  min-height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn{
+  font-family: var(--cuerpo);
+  font-weight: 600;
+  font-size: .95rem;
+  padding: 14px 30px;
+  border-radius: 999px;
+  border: 1px solid var(--rosa);
+  cursor: pointer;
+  transition: transform .2s var(--curva), background .2s;
+}
+
+.btn-si{
+  background: var(--rosa);
+  color: var(--noche);
+}
+.btn-si:hover{ transform: scale(1.06); }
+
+.btn-no{
+  background: transparent;
+  color: var(--tenue);
+  border-color: rgba(245,230,200,.25);
+  transition: transform .28s var(--curva);   /* el resto lo controla el JS */
+}
+
+.respuesta{
+  display: none;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: clamp(1.5rem, 7vw, 2rem);
+  color: var(--oro);
+  line-height: 1.35;
+}
+
+.respuesta.mostrar{
+  display: block;
+  animation: subir .9s var(--curva);
+}
+
+@keyframes subir{
+  from{ opacity: 0; transform: translateY(18px); }
+  to  { opacity: 1; transform: none; }
+}
+
+.cierre{
+  margin-top: 2.4rem;
+  font-family: var(--display);
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--tenue);
+}
+
+.firma{
+  margin-top: .8rem;
+  font-family: var(--dato);
+  font-size: .68rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--tenue);
+}
+
+/* ═══ CORAZONES DE FONDO ════════════════════════════════════════════ */
+#corazones{
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  pointer-events: none;                 /* no interfiere con los toques */
+  z-index: 1;
+  overflow: hidden;
+}
+
+.corazon{
+  position: absolute;
+  bottom: -40px;
+  color: var(--rosa);
+  opacity: 0;
+  animation: flotar linear forwards;
+  will-change: transform, opacity;      /* pista al navegador para usar la GPU */
+}
+
+@keyframes flotar{
+  0%  { opacity: 0;   transform: translateY(0) scale(.6) rotate(0deg); }
+  12% { opacity: .55; }
+  85% { opacity: .30; }
+  100%{ opacity: 0;   transform: translateY(-108vh) scale(1) rotate(38deg); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  #corazones{ display: none; }
+}
+
+/* ═══ CONTROL DE MÚSICA ═════════════════════════════════════════════ */
+#audio-btn{
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 60;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--profundo);
+  color: var(--papel);
+  border: 1px solid rgba(245,230,200,.2);
+  cursor: pointer;
+  font-size: 1rem;
+  display: none;                        /* audio.js lo muestra si hay canción */
+  place-items: center;
+}
+
+#audio-btn.activo{ display: grid; }
+
+/* ═══ AJUSTES PARA PANTALLAS MUY ESTRECHAS ══════════════════════════ */
+@media (max-width: 380px){
+  .momentos{ grid-template-columns: 1fr; }
+  .contador{ gap: 16px 4px; }
+}
