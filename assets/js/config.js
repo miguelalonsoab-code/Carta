@@ -31,11 +31,11 @@ const CONFIG = {
 
   /* ── La carta ──────────────────────────────────────────────────────
      Cada elemento del array es un párrafo.                           */
-  saludo: "Hola, mi amor",
+  saludo: "Hola, mi niña hermosa",
   carta: [
     "No sé escribir cosas bonitas en papel, así que hice lo único que sé hacer bien: te escribí una página entera.",
     "Cada línea de código de aquí la puse pensando en ti. Literalmente. Hay partes que reescribí tres veces porque no sonaban a nosotros.",
-    "Feliz día, mi novia."
+    "Feliz día, mi vida."
   ],
 
   /* ── Momentos ──────────────────────────────────────────────────────
@@ -54,9 +54,9 @@ const CONFIG = {
      Cada tarjeta se voltea al tocarla: `frente` es lo que se ve,
      `reverso` lo que aparece al girarla.                             */
   razones: [
-    { frente: "Por cómo hablas",    reverso: "Cuando algo te emociona hablas más rápido y te comes las palabras. Podría escucharte así todo el día." },
-    { frente: "Por cómo me calmas", reverso: "Llego hecho un desastre y en diez minutos contigo el problema ya no era tan grande." },
-    { frente: "Por tu terquedad",   reverso: "Cuando decides algo, no hay quien te mueva. Y casi siempre tienes razón, lo cual es peor." },
+    { frente: "Por cómo hablas",    reverso: "Cuando algo te emociona hablas con una ilusión bastante grande. Podría escucharte así todo el día." },
+    { frente: "Por cómo me calmas", reverso: "Llego hecho un desastre y unos minutos contigo el problema ya no era tan grande." },
+    { frente: "Por tu terquedad",   reverso: "Cuando decides algo, no hay quien te mueva. Y casi siempre tienes razón" },
     { frente: "Por lo que viene",   reverso: "Porque todavía nos faltan un montón de primeras veces y quiero estar ahí para todas." }
   ],
 
