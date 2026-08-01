@@ -46,10 +46,38 @@ function calcularDiferencia(desde, hasta){
 }
 
 /**
+ * Escribe la fecha de inicio en letra, encima del contador.
+ *
+ * El texto se deriva de CONFIG.inicio con toLocaleString: no hay ni un
+ * nombre de mes escrito a mano. Si mañana cambias la fecha en config,
+ * esta línea cambia sola.
+ */
+function pintarFechaInicio(){
+  const nodo = $('#txt-desde');
+  if (!nodo) return;
+
+  const inicio = CONFIG.inicio;
+
+  // Una fecha mal escrita en config (un mes 13, por ejemplo) produce un
+  // Date inválido. Mejor no pintar nada que pintar "Invalid Date".
+  if (!(inicio instanceof Date) || isNaN(inicio.getTime())) return;
+
+  nodo.textContent = inicio.toLocaleString('es-ES', {
+    day:    'numeric',
+    month:  'long',
+    year:   'numeric',
+    hour:   '2-digit',
+    minute: '2-digit'
+  });
+}
+
+/**
  * Construye el contador y lo pone en marcha.
  * Lo llama main.js durante el arranque.
  */
 function iniciarContador(){
+  pintarFechaInicio();
+
   const caja = $('#contador');
   if (!caja) return;
 

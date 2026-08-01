@@ -1,0 +1,22 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*~
+
+# Dependencias (por si más adelante añades un build)
+node_modules/
+package-lock.json
+
+# Variables de entorno
+.env
+.env.local
+
+# Fotos originales sin optimizar: pesan mucho y no se publican.
+# Guárdalas aquí si quieres tenerlas a mano, Git las ignorará.
+originales/

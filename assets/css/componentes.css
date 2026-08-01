@@ -53,6 +53,18 @@
 /* ═══ EL CONTADOR ═══════════════════════════════════════════════════
    Riesgo deliberado: cifras en monoespaciada. Una máquina midiendo con
    precisión de segundos algo que en realidad no se puede medir.      */
+
+/* La fecha de partida, escrita en letra. Las cifras de abajo crecen
+   cada segundo; esto es el punto fijo del que crecen. Sin ella el
+   contador son seis números sin origen.                              */
+.desde{
+  font-family: var(--display);
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--rosa);
+  margin: 0 0 1.4rem;
+}
+
 .contador{
   border-top: 1px solid rgba(245,230,200,.16);
   border-bottom: 1px solid rgba(245,230,200,.16);
